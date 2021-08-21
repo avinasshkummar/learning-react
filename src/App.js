@@ -1,25 +1,52 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
-function App() {
+function Customer() {
+
+  const [customer, _setCustomer] = useState({ name: "", code: "" });
+  const [customers, _setCustomers] = useState([]);
+
+  const setCustomer = (e) => {
+    _setCustomer(prevState => ({
+      ...prevState,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+
+  const setCustomers = (e) => {
+    _setCustomers(prevState => (
+      [...prevState, customer]
+    ));
+
+    _setCustomer(prevState => ({
+      ...prevState,
+      name: "", code: ""
+    }));
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="CustomerComponent">
+      Name: <input value={customer.name} type="text" name="name" id="name" onChange={setCustomer} /><br />
+
+      Code: <input value={customer.code}type="text" name="code" id="code" onChange={setCustomer} /><br />
+
+      <input type="button" value="Add to Table" onClick={setCustomers} /><br />
+
+      <table>
+        <tr>
+          <td>Name</td>
+          <td>Code</td>
+        </tr>
+        {customers.map(
+          (x, index) => (
+            <tr key={index}>
+              <td>{x.name}</td>
+              <td>{x.code}</td>
+            </tr>
+          ))}
+      </table>
     </div>
   );
 }
 
-export default App;
+export default Customer;
